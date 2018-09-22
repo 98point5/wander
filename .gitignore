@@ -1,4 +1,4 @@
 node_modules/
 bundle.js
-*.config.js
+# *.config.js
 .DS_Store

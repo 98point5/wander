@@ -22,25 +22,19 @@ class App extends React.Component {
   render() {
     if (this.state.page === 'start') {
       return (
-        <div>
-          <Start changePage={this.changePageToSearch}/>
-        </div>
+          <Start changePage={this.changePageToSearch}/> 
       );
     }
 
     if (this.state.page === 'search') {
       return (
-        <div>
-          <Search />
-        </div>
+          <Search /> 
       );
     }
 
     if (this.state.page === 'map') {
-      return (
-        <div>
+      return (  
           <Map />
-        </div>
       );
     }
   }

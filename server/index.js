@@ -1,5 +1,6 @@
 const {
 	connect, 
+	handlePostAuth,
 	unlock, 
 	lock, 
 	locate, 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.post('/wander/connect', connect);
+app.get('/callback', handlePostAuth);
 app.get('/wander/unlock', unlock);
 app.get('/wander/lock', lock);
 app.get('/wander/location', locate)

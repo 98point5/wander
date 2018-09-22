@@ -13,10 +13,10 @@ class Start extends React.Component {
 
   render () {
     return (
-      <div className="start-bg">
-        <Button className="start-button" variant="contained" color="primary" onClick={this.props.changePage}>
+      <div className="bg">
+        <div className="start-button" onClick={this.props.changePage}>
           Wander
-        </Button>
+        </div>
       </div>
     );
   }

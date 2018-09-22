@@ -10,13 +10,20 @@ class App extends React.Component {
     this.state = {
       page: 'start'
     };
+    this.changePageToSearch = this.changePageToSearch.bind();
+  }
+
+  changePageToSearch() {
+    this.setState({
+      page: 'search'
+    });
   }
 
   render() {
     if (this.state.page === 'start') {
       return (
         <div>
-          <Start />
+          <Start changePage={this.changePageToSearch}/>
         </div>
       );
     }

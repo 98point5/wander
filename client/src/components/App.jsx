@@ -73,7 +73,7 @@ class App extends React.Component {
   handleCarPick(carId) {
     fetch('/wander/vehicles/:vehicleId/locate')
     .then (res => res.json())
-    .then ({data} => {
+    .then (({data}) => {
       let lat = Number(data.latitude).toFixed(6);
       let long = Number(data.longitude).toFixed(6);
       this.setState({
@@ -85,7 +85,7 @@ class App extends React.Component {
   handleCarUnlock(carId){
     fetch('/wander/vehicles/' + carId + '/locate')
     .then (res => res.json())
-    .then ({data} => {
+    .then (({data}) => {
       let lat = Number(data.latitude).toFixed(6);
       let long = Number(data.longitude).toFixed(6);
       this.setState({

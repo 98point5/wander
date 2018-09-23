@@ -66,7 +66,7 @@ export default class Map extends Component {
   render() {
     let { destination } = this.props;
     return (
-      <div>
+      <div className="bg">
         <h1>map</h1>
         {/* <img
           className=""

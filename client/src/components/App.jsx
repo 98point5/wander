@@ -3,6 +3,7 @@ import axios from 'axios';
 import Start from './Start.jsx';
 import Search from './Search.jsx';
 import Map from './Map.jsx';
+import NavBar from './NavBar';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,20 +43,33 @@ class App extends React.Component {
 
   render() {
     if (this.state.page === 'start') {
-      return <Start changePage={this.handleWander} />;
+      return (
+        <div>
+          <NavBar />
+          <Start changePage={this.handleWander} />
+        </div>
+      );
     }
 
     if (this.state.page === 'search') {
       return (
-        <Search
-          handleSearch={this.handleSearch}
-          inputSearch={this.inputSearch}
-        />
+        <div>
+          <NavBar />
+          <Search
+            handleSearch={this.handleSearch}
+            inputSearch={this.inputSearch}
+          />
+        </div>
       );
     }
 
     if (this.state.page === 'map') {
-      return <Map destination={this.state.destination} />;
+      return (
+        <div>
+          <NavBar />
+          <Map destination={this.state.destination} />
+        </div>
+      );
     }
   }
 }

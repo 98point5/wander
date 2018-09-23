@@ -1,3 +1,4 @@
+
 const frequentPlaces = [
   {
     id: 1,
@@ -39,3 +40,4 @@ module.exports = {
   users,
   frequentPlaces
 };
+

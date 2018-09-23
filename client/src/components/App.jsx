@@ -24,7 +24,9 @@ class App extends React.Component {
     this.state = {
       page: 'start',
       destination: '',
-      buttonLabel: ''
+      buttonLabel: '',
+      startingPoint: '',
+      endingPoint: ''
     };
     this.handleWander = this.handleWander.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -68,6 +70,18 @@ class App extends React.Component {
     console.log(this.state);
   }
 
+  handleCarPick(carId) {
+    fetch('/wander/vehicles/:vehicleId/locate')
+    .then (res => res.json())
+    .then ({data} => {
+      let lat = Number(data.latitude).toFixed(6);
+      let long = Number(data.longitude).toFixed(6);
+      this.setState({
+        startingPoint: lat + ',' + long
+      })
+    })
+  }
+
   render() {
     const whiteBackground = {
       border: '2px solid white',
@@ -82,6 +96,12 @@ class App extends React.Component {
           <Start changePage={this.handleWander} />
         </div>
       );
+    }
+
+    if (this.state.page === 'cars') {
+      currentComponent = (
+        <MyCars handleSelect={this.handleCarPick} />
+      )
     }
 
     if (this.state.page === 'search') {

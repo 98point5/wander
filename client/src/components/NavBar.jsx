@@ -64,8 +64,12 @@ class NavBar extends Component {
               >
                 Wander
               </Typography>
-              <Button size="large" color="inherit">
-                Login
+              <Button 
+                size="large" 
+                color="inherit"
+                onClick={this.props.handleAuth}
+              >
+                {this.props.buttonLabel}
               </Button>
             </Toolbar>
           </AppBar>

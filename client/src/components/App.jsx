@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Start from './Start.jsx';
 import Search from './Search.jsx';
-// import Map from './Map.jsx';
+import Map from './Map.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -54,11 +54,9 @@ class App extends React.Component {
       );
     }
 
-    // if (this.state.page === 'map') {
-    //   return (
-    // <Map />
-    //   );
-    // }
+    if (this.state.page === 'map') {
+      return <Map destination={this.state.destination} />;
+    }
   }
 }
 

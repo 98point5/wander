@@ -11,6 +11,7 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     color: 'white',
+    justifyContent: 'center',
   },
   margin: {
     margin: theme.spacing.unit,
@@ -60,6 +61,7 @@ class SearchBar extends Component {
     const { classes } = this.props;
     return (
       <div className="bg">
+        <br />
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             autoFocus={true}
@@ -73,7 +75,7 @@ class SearchBar extends Component {
           />
           <FormHelperText id="name-helper-text" />
         </form>
-
+        <br />
         <div className={classes.container}>
           <Button
             variant="contained"

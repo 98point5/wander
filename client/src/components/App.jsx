@@ -1,11 +1,13 @@
 import React from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import Start from './Start.jsx';
 import Search from './Search.jsx';
 import Map from './Map.jsx';
 import NavBar from './NavBar';
 import MyCars from './MyCars.jsx';
+import frequentPlaces from '../../../server/sampleData.js'
+import FrequentPlaces from './FrequentPlaces';
+
 const Container = styled.div`
   position: relative;
   text-align: center;
@@ -27,6 +29,7 @@ class App extends React.Component {
       buttonLabel: '',
       startingPoint: '',
       endingPoint: '',
+      places: frequentPlaces,
     };
     this.handleWander = this.handleWander.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -53,7 +56,7 @@ class App extends React.Component {
 
   handleSearch() {
     this.setState({
-      page: 'map',
+      page: 'places',
     });
     console.log('MAP', this.state);
   }
@@ -161,6 +164,16 @@ class App extends React.Component {
               handleSearch={this.handleSearch}
               inputSearch={this.inputSearch}
             />
+          </Section>
+        </Container>
+      );
+    }
+
+    if (this.state.page === 'places') {
+      currentComponent = (
+        <Container>
+          <Section>
+            <FrequentPlaces places={this.state.places.frequentPlaces} />
           </Section>
         </Container>
       );

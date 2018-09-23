@@ -22,19 +22,20 @@ export default class MyCars extends Component {
 
   render() {
     const { handleCarPick } = this.props;
-    let rows = this.state.carIds.map(carId => {
+
+    let rows = this.state.carIds.map((carId, key) => {
       return (
         <CarCard
           carId={carId}
+          key={key}
           handleSelect={() => this.props.handleSelect(carId)}
         />
       );
     });
 
     return (
-      <div>
-        <h1>My Cars</h1>
-        <div>{rows}</div>
+      <div className="bg">
+        <div className="flex">{rows}</div>
       </div>
     );
   }

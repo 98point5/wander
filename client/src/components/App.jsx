@@ -73,12 +73,43 @@ class App extends React.Component {
   handleCarPick(carId) {
     fetch('/wander/vehicles/:vehicleId/locate')
     .then (res => res.json())
-    .then ({data} => {
+    .then (({data}) => {
       let lat = Number(data.latitude).toFixed(6);
       let long = Number(data.longitude).toFixed(6);
       this.setState({
         startingPoint: lat + ',' + long
       })
+    })
+  }
+
+  handleCarUnlock(carId){
+    fetch('/wander/vehicles/' + carId + '/locate')
+    .then (res => res.json())
+    .then (({data}) => {
+      let lat = Number(data.latitude).toFixed(6);
+      let long = Number(data.longitude).toFixed(6);
+      this.setState({
+        startingPoint: lat + ',' + long
+      })
+    })
+    .then(() => {
+      fetch('/wander/vehicles/' + carId + '/unlock')
+      .then(res => alert('Car unlocked!'))
+    })
+  }
+
+  handleDestinationPick({latitude, longitude}) {
+    let endingPoint =  latitude + ',' + longitude;
+    this.setState({
+      endingPoint: endingPoint
+    }, this.getSuggestions)
+
+  }
+
+  getSuggestions() {
+    fetch('/wander/suggestions/' + this.state.startingPoint + '/' + this.state.endingPoint)
+    .then(results => {
+        //put tehm in da map yo
     })
   }
 

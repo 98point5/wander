@@ -101,7 +101,7 @@ const getFrequentDestinations = (req, res) => {
 	let userId = req.session.userId;
 	//get user's frequently visited destinations by id from DB
 
-	res.send({results: users[userId].frequentPlaces})
+	res.send({results: frequentPlaces})
 
 }
 

@@ -36,6 +36,7 @@ class App extends React.Component {
     this.inputSearch = this.inputSearch.bind(this);
     this.returnToHome = this.returnToHome.bind(this);
     this.handleCarPick = this.handleCarPick.bind(this);
+    this.handleDestinationPick = this.handleDestinationPick.bind(this);
   }
 
   handleWander() {
@@ -92,6 +93,7 @@ class App extends React.Component {
         let long = Number(data.longitude).toFixed(6);
         this.setState({
           startingPoint: lat + ',' + long,
+          page: 'search'
         });
       });
   }
@@ -104,7 +106,7 @@ class App extends React.Component {
         let long = Number(data.longitude).toFixed(6);
         this.setState({
           startingPoint: lat + ',' + long,
-          page: 'locations',
+          page: 'search',
         });
       })
       .then(() => {
@@ -119,6 +121,7 @@ class App extends React.Component {
     this.setState(
       {
         endingPoint: endingPoint,
+        page: 'map'
       },
       this.getSuggestions
     );
@@ -132,6 +135,7 @@ class App extends React.Component {
         this.state.endingPoint
     ).then(results => {
       //put tehm in da map yo
+      
     });
   }
 
@@ -155,25 +159,27 @@ class App extends React.Component {
       currentComponent = <MyCars handleSelect={this.handleCarPick} />;
     }
 
+    // if (this.state.page === 'search') {
+    //   currentComponent = (
+    //     <Container>
+    //       <Section>
+    //       <FrequentPlaces places={this.state.places.frequentPlaces} handleSelect={this.handleDestinationPick}/>
+    //         <Search
+    //           style={whiteBackground}
+    //           handleSearch={this.handleSearch}
+    //           inputSearch={this.inputSearch}
+    //         />
+            
+    //       </Section>
+    //     </Container>
+    //   );
+    // }
+
     if (this.state.page === 'search') {
       currentComponent = (
         <Container>
           <Section>
-            <Search
-              style={whiteBackground}
-              handleSearch={this.handleSearch}
-              inputSearch={this.inputSearch}
-            />
-          </Section>
-        </Container>
-      );
-    }
-
-    if (this.state.page === 'places') {
-      currentComponent = (
-        <Container>
-          <Section>
-            <FrequentPlaces places={this.state.places.frequentPlaces} />
+            <FrequentPlaces places={this.state.places.frequentPlaces} handleSelect={this.handleDestinationPick}/>
           </Section>
         </Container>
       );
@@ -182,7 +188,7 @@ class App extends React.Component {
     if (this.state.page === 'map') {
       currentComponent = (
         <div>
-          <Map destination={this.state.destination} />
+          <Map startingPoint={this.state.startingPoint} endingPoint={this.state.endingPoint} />
         </div>
       );
     }

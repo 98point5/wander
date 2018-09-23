@@ -44,7 +44,7 @@ class App extends React.Component {
       }else{
         this.setState({
           buttonLabel: 'LOGOUT',
-          page: 'search'
+          page: 'cars'
         })
       }
     })
@@ -69,6 +69,23 @@ class App extends React.Component {
     });
     console.log(this.state);
   }
+
+  getCars() {
+    fetch('/wander/vehicles')
+    .then(res => res.json())
+    .then(({data}) => this.setState({
+      carIds: data
+    });
+  }
+
+  getCarInfo(carId) {
+    fetch('/wander/vehicles/' + carId + '/info')
+    .then(res => res.json())
+    .then(carInfo => this.setState({
+      cars: this.state.cars.concat(carInfo)
+    }))
+  }
+
 
   handleCarPick(carId) {
     fetch('/wander/vehicles/:vehicleId/locate')

@@ -19,13 +19,13 @@ class Googlemap extends React.Component {
             style={style}
           >
             <Marker
-              position={this.props.start}
+              position={this.props.startPoint}
               icon={{
                 url: "./icons/usr_loc.png",
               }} 
             />
             <Marker
-              position={this.props.start}
+              position={this.props.endPoint}
               icon={{
                 url: "./icons/pin.png",
               }} 

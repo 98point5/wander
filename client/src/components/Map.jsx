@@ -8,9 +8,9 @@ export default class Map extends Component {
     this.state = {
       nearPlaces: [],
       startPoint: '37.783756,-122.409276',
-      endPoint: '37.767,-122.416',
+      endPoint: '37.768,-122.448',
       start: {lat: 37.783756, lng: -122.409276},
-      end: {lat: 37.767, lng: -122.416},
+      end: {lat: 37.768, lng: -122.4448},
       center: {}
     }
   }
@@ -34,8 +34,8 @@ export default class Map extends Component {
 
   render() {
     return (
-      <div>
-        <div>
+      <div className='bg'>
+        <div >
           <Googlemap
           initialCenter={this.state.center}
           nearPlaces={this.state.nearPlaces}
@@ -46,18 +46,19 @@ export default class Map extends Component {
           endPoint={this.state.end}
           />
         </div>
-          <ul style={{ 'padding-top': '410px'}}>
+          <div style={{ 'padding-top': '410px'}} className="blurp">
             {this.state.nearPlaces.map(place =>
-              <li>
+              <div className="blurp2">
               {place.name}
-                <ul>
-                  <li>{place.name}</li>
-                  <li>{JSON.stringify(place.opening_hours)}</li>
-                  <li>{place.rating}</li>
-                </ul>
-              </li>
+                <div>
+                  <div>{`Name: ${place.name}`}</div>
+                  <div>{"Opening Hours: " + JSON.stringify(place.opening_hours)}</div>
+                  <div>{`Rating: ${place.rating}`}</div>
+                </div>
+              </div>
+
             )}
-          </ul>
+          </div>
         </div>
       // </div>
     );

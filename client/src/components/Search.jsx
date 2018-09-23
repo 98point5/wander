@@ -9,6 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import purple from '@material-ui/core/colors/purple';
 import Button from '@material-ui/core/Button';
+import frequentPlaces from '../../../server/sampleData.js'
+import FrequentPlaces from './FrequentPlaces';
 
 const styles = theme => ({
   container: {
@@ -142,6 +144,7 @@ class SearchBar extends Component {
             </Button>
           </div>
         </FormControl>
+        <FrequentPlaces places={this.props.places} handleSelect={this.props.handleDestinationPick}/>
       </div>
     );
   }

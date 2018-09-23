@@ -21,21 +21,22 @@ class CarCard extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
-    const { classes } = props;
+    const { classes } = this.props;
     return (
-      <Card className={classes.card}>
+      <Card className={classes.card} onClick={this.props.handleSelect}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
             image="https://upload.wikimedia.org/wikipedia/commons/8/82/Tesla_Model_S_%28Facelift_ab_04-2016%29_trimmed.jpg"
-            title="Contemplative Reptile"
+            title="Car"
           />
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
               Tesla
             </Typography>
-            <Typography component="p">Tesla Model S P100D</Typography>
+            <Typography component="p">{this.props.carId}</Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
@@ -50,9 +51,5 @@ class CarCard extends Component {
     );
   }
 }
-
-MediaCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(CarCard);

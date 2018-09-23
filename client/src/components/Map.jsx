@@ -6,29 +6,37 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nearPlaces: []
+      nearPlaces: [],
+      startPoint: '37.783756,-122.409276',
+      endPoint: '37.767,-122.416',
+      center: {}
     }
   }
 
   componentDidMount(){
-    axios.get('/wander/suggestions/37.783756,-122.409276/37.767,-122.416')
-    .then(function (response) {
-      console.log(response.data);
+    const { startPoint, endPoint } = this.state
+    axios.get(`/wander/suggestions/${startPoint}/${endPoint}`)
+    .then( ({ data }) => {
+      this.setState({
+        nearPlaces: data.results
+      })
+    })
+    let startLoc = startPoint.split(',');
+    let endLoc = endPoint.split(',');
+    let midLat = ((+startLoc[0] + +endLoc[0])/2).toFixed(6);
+    let midLong = ((+startLoc[1] + +endLoc[1])/2).toFixed(6);
+    this.setState({
+      center: {lat: +midLat, lng: +midLong}
     })
   }
 
   render() {
     return (
       <Googlemap
-      // initialCenter={{
-      //   lat: 37.7749,
-      //   lng: -122.4194,
-      // }}
-      center={{
-        lat: 37.7749,
-        lng: -122.4194,
-      }}
-      zoom={14}
+      initialCenter={this.state.center}
+      nearPlaces={this.state.nearPlaces}
+      center={this.state.center}
+      zoom={13.5}
       style={{ width: '100%' , height: 300, position: 'relative' }}
     />
     );

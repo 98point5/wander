@@ -8,7 +8,7 @@ function FrequentPlaces(props) {
     <div className='bg column'>
       {places.map(place => (
         <div>
-          <Place place={place} />
+          <Place place={place} handleSelect={props.handleSelect}/>
         </div>
       ))}
     </div>

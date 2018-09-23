@@ -27,10 +27,15 @@ const styles = theme => ({
     },
   },
   cssRoot: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     '&:hover': {
-      backgroundColor: purple[700],
+      background: 'linear-gradient(45deg, #FE6B8B 70%, #FF8E53 100%)',
     },
   },
 });
@@ -51,13 +56,12 @@ class SearchBar extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <div className="bg">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             autoFocus={true}
             type="text"
             placeholder="Wander to..."
-            // value={this.props.value}
             onKeyUp={this.props.inputSearch}
             id="full-width"
             InputLabelProps={{ shrink: true }}

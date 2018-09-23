@@ -60,3 +60,24 @@ html, body {
   height: 100%;
   overflow: auto;
 }
+
+.description {
+  background-color: salmon;
+  color: white;
+  opacity: .8;
+  line-height: 6vh;
+  border-radius: 25px;
+  text-align: center;
+  padding-top: 2vh;
+  margin: 10px;
+  width: 60vh;
+  height: 14vh;
+  font-size: 2vw;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  padding-left: 65vh;
+  padding-top: 10vh;
+}

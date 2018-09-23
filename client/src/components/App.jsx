@@ -135,7 +135,7 @@ class App extends React.Component {
         this.state.endingPoint
     ).then(results => {
       //put tehm in da map yo
-      
+
     });
   }
 
@@ -159,31 +159,32 @@ class App extends React.Component {
       currentComponent = <MyCars handleSelect={this.handleCarPick} />;
     }
 
-    // if (this.state.page === 'search') {
-    //   currentComponent = (
-    //     <Container>
-    //       <Section>
-    //       <FrequentPlaces places={this.state.places.frequentPlaces} handleSelect={this.handleDestinationPick}/>
-    //         <Search
-    //           style={whiteBackground}
-    //           handleSearch={this.handleSearch}
-    //           inputSearch={this.inputSearch}
-    //         />
-            
-    //       </Section>
-    //     </Container>
-    //   );
-    // }
-
     if (this.state.page === 'search') {
       currentComponent = (
         <Container>
           <Section>
-            <FrequentPlaces places={this.state.places.frequentPlaces} handleSelect={this.handleDestinationPick}/>
+            <Search
+              style={whiteBackground}
+              handleSearch={this.handleSearch}
+              inputSearch={this.inputSearch}
+              handleDestinationPick={this.handleDestinationPick}
+              places={this.state.places.frequentPlaces}
+            />
+            
           </Section>
         </Container>
       );
     }
+
+    // if (this.state.page === 'search') {
+    //   currentComponent = (
+    //     <Container>
+    //       <Section>
+    //         <FrequentPlaces places={this.state.places.frequentPlaces} handleSelect={this.handleDestinationPick}/>
+    //       </Section>
+    //     </Container>
+    //   );
+    // }
 
     if (this.state.page === 'map') {
       currentComponent = (

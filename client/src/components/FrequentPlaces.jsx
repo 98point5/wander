@@ -5,7 +5,7 @@ function FrequentPlaces(props) {
   const places = props.places;
   console.log(places);
   return (
-    <div className='bg column'>
+    <div className='column'>
       {places.map(place => (
         <div>
           <Place place={place} handleSelect={props.handleSelect}/>

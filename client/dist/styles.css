@@ -76,14 +76,30 @@ html, body {
   text-align: center;
   padding-top: 2vh;
   margin: 10px;
-  width: 60vh;
+  width: 40vh;
   height: 14vh;
   font-size: 2vw;
 }
 
+.blurp {
+  z-index: -1;
+  font-size: 13pt;
+ /* background-color: salmon;
+  opacity: .8;*/
+  padding: 2vh;
+  text-shadow: gray;
+}
+.blurp2{
+  padding: 10px;
+}
+
+.description:hover {
+  cursor: pointer;
+}
+
 .column {
   display: flex;
-  flex-direction: column;
-  padding-left: 65vh;
+  /*flex-direction: column;
+  padding-left: 65vh;*/
   padding-top: 10vh;
 }

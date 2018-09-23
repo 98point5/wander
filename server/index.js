@@ -13,7 +13,8 @@ const app = express();
 
 app.use(express.static('client/dist'));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
+
 
 app.post('/wander/connect', connect);
 app.get('/wander/unlock', unlock);
@@ -24,4 +25,3 @@ app.get('/wander/routes/new', getRoutesByLocation);
 app.get('/wander/places/location/:lat,:long/:keyword', getPlacesNearby);
 
 app.listen(3000, () => console.log('Listening at 3000'));
-

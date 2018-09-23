@@ -1,4 +1,8 @@
 const { nearBySearchFunc } = require("./NearBySearch.js");
+const {
+	clientId,
+	clientSecret
+} = require('./secrets.js');
 
 const connect = (req, res) => {
 

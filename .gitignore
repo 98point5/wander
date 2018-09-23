@@ -5,3 +5,4 @@ bundle.js
 secrets.js
 API_KEY.js
 config.js
+package-lock.json

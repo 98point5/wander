@@ -117,8 +117,8 @@ class App extends React.Component {
     }
     return (
       <div>
-        <NavBar 
-          returnToHome={this.returnToHome} 
+        <NavBar
+          returnToHome={this.returnToHome}
           handleAuth={this.handleAuthentication}
           buttonLabel={this.state.buttonLabel}
         />

@@ -1,90 +1,168 @@
 const {  clientId, clientSecret  } = require('./secrets.js');
-const { nearBySearchFunc } = require('./NearBySearch.js');
+//const { nearBySearchFunc } = require('./NearBySearch.js');
+const { users, frequentPlaces } = require('./sampleData.js');
+const { getMidPoint, getRandomPlaceType } = require('./utils.js');
+
 const smartcar = require('smartcar');
-
-
-const mockAccessToken = 'a5a735b9-294d-4e2a-92f6-8419588af373' ;
-const mockRefreshToken = '7b555c09-dd68-4449-adeb-16790d4099ac';
-let mockVehicle = null;
+const superagent = require('superagent');
 
 const client = new smartcar.AuthClient({
   clientId: clientId,
   clientSecret: clientSecret,
   redirectUri: 'http://localhost:3000/callback',
   scope: ['read_vehicle_info', 'read_location', 'control_security'],
-  development: true, 
   testMode: true,
 });
- 
 
-const getVehicle = () => {
-	return smartcar.getVehicleIds(mockAccessToken).then(response => {
-    mockVehicle = new smartcar.Vehicle(response.vehicles[0], mockAccessToken);
-    return mockVehicle.info();
-	}).then((data) => {
-		console.log("new car: ", data);
-	})
+
+const authenticate = (req, res) => {
+
+	if (req.session.access){
+		console.log('Starting from prior session...')
+		let { expiration, refreshToken } = req.session.access;
+		console.log(req.session)
+		// if (smartcar.isExpired(expiration)){
+		// 	console.log('Acquiring new access...')
+		// 	client.exchangeRefreshToken(refreshToken)
+		// 		.then((newAccess) => {
+		// 			req.session.access = newAccess;
+		// 		})
+		// 		.then(() => res.redirect('/wander/vehicles'))
+		// } else {
+			res.send({status: "success"})
+		//}
+
+	} else {
+		console.log('Starting new session...')
+		//res.send({status: "failed", authUrl: client.getAuthUrl()})
+		res.redirect(client.getAuthUrl())
+	}
 }
 
-getVehicle();
+const initializeNewSession = (req, res) => {
+  //TODO: test handler 
+	let { code } = req.query;
 
-const unlock = (req, res) => {
-  mockVehicle.unlock()
-  	.then(response => res.send({data: "Vehicle unlocked: "+ response}))
+	if (code) {
+		client.exchangeCode(code)
+		.then(access => {
+	  	smartcar.getUserId(access.accessToken)
+			.then(userId => {
+				smartcar.getVehicleIds(access.accessToken)
+				.then(({vehicles}) => {
+					req.session = { 
+			  		access: access, 
+			  		vehicles: vehicles,
+			  		userId: userId
+			  	}
+			  	console.log(req.session)
+			  	res.redirect('/')
+				})
+  		})
+	  })
+	} else {
+		res.end()
+	}
 }
 
-const lock = (req, res) => {
-	mockVehicle.lock()
-		.then(response => res.send({data: "Vehicle locked: " +response}));
+const getVehicles = (req, res) => {
+  console.log('current session: ' , req.session)
+  res.send({data: req.session.vehicles})
+}
+
+const handleVehicleRequest = (req, res) => {
+	let { vehicleId, request } = req.params;
+	let { accessToken } = req.session.access;
+	let car = new smartcar.Vehicle(vehicleId, accessToken);
+
+	switch (request) {
+		case 'info':
+			car.info()
+			  .then(data => res.send(data));
+			break;
+		case 'unlock':
+		//also need to post location
+		  car.unlock()
+		    .then((response, err) => res.send(err || {status: "success"}));
+		  break;
+		case 'lock':
+			car.lock()
+				.then((response, err) => res.send(err || {status: "success"}));
+			break;
+		case 'locate':
+			car.location().then(response => res.send(response));
+			break;
+		default:
+			res.status(404).end();
+	}
+}
+
+const getFrequentDestinations = (req, res) => {
+	let userId = req.session.userId;
+	//get user's frequently visited destinations by id from DB
+
+	res.send({results: users[userId].frequentPlaces})
 
 }
 
-const locate = (req, res) => {
-	mockVehicle.location()
-		.then(response => {
-			console.log(typeof response, response )
-			res.send(response)
+const getSuggestions = (req, res) => {
+	let { start, end } = req.params;
+	let mid = getMidPoint(start, end);
+
+	let url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
+	let query = {
+		key: 'AIzaSyA8RCZUo52VwY0zWiEVT0YRROmsz0tHuvg',
+		location: start,
+		radius: 2000,
+		type: getRandomPlaceType()
+	}
+
+	superagent.get(url).query(query)
+		.then(response => JSON.parse(response.text).results[0])
+		.then((suggestionNearStart) => {
+			query.location = mid;
+			query.type = getRandomPlaceType();
+			superagent.get(url).query(query)
+			.then(response => JSON.parse(response.text).results[0])
+			.then((suggestionNearMid) => {
+				query.location = end;
+				query.type = getRandomPlaceType();
+				superagent.get(url).query(query)
+				.then(response => JSON.parse(response.text).results[0])
+				.then((suggestionNearEnd) => res.send({results: [suggestionNearStart, suggestionNearMid, suggestionNearEnd]}))
+			})
 		})
 
 }
 
-const getDestinationsBy
+// const getRoutesByDestinationId = (req, res) => {
+// 	//randomly generate a new place to visit that is enroute to destination
+//   res.send({results: "endpoint in development"})
+// }
 
-const getRoutesById = (req, res) => {
-	var results = {
-		results:
-		[
-			{
+// const getRoutesByLocation = (req, res) => {
+// 	//get route to specified address and generate a new place to visit enroute
+// 	res.send({ results: "endpoint in development"})
+// }
 
-			}
-
-		]
-	}
-  res.send()
-}
-
-const getRoutesByLocation = (req, res) => {
-
-}
-
-const getPlacesNearby = (req, res) => {
-  const parameters = {
-    location: [req.params.lat, req.params.long],
-    keyword: req.params.keyword,
-  };
-  nearBySearchFunc(parameters, result => res.send(result));
-};
+// const getPlacesNearby = (req, res) => {
+//   const parameters = {
+//     location: [req.params.lat, req.params.long],
+//     keyword: req.params.keyword,
+//   };
+//   nearBySearchFunc(parameters, result => res.send(result));
+// };
 
 module.exports = {
-	connect, 
-	handlePostAuth,
-	getVehicle,
-	unlock, 
-	lock, 
-	locate, 
-	getRoutesById,
-	getRoutesByLocation,
-	getPlacesNearby
+	authenticate,
+	initializeNewSession,
+	getVehicles,
+	handleVehicleRequest,
+	getFrequentDestinations,
+	// getRoutesByDestinationId,
+	// getRoutesByLocation,
+	getSuggestions,
+	//getPlacesNearby
 }
 
 

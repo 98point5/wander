@@ -1,76 +1,64 @@
-const {
-	clientId,
-	clientSecret
-} = require('./secrets.js');
+const {  clientId, clientSecret  } = require('./secrets.js');
 const smartcar = require('smartcar');
+
+const mockAccessToken = 'a5a735b9-294d-4e2a-92f6-8419588af373' ;
+const mockRefreshToken = '7b555c09-dd68-4449-adeb-16790d4099ac';
+let mockVehicle = null;
 
 const client = new smartcar.AuthClient({
   clientId: clientId,
   clientSecret: clientSecret,
   redirectUri: 'http://localhost:3000/callback',
   scope: ['read_vehicle_info', 'read_location', 'control_security'],
+  development: true, 
   testMode: true,
 });
-
  
-const connect = (req, res) => {
-	const link = client.getAuthUrl({state: 'MY_STATE_PARAM'});
 
-  // redirect to the link
-  res.redirect(link);
+const getVehicle = () => {
+	return smartcar.getVehicleIds(mockAccessToken).then(response => {
+    mockVehicle = new smartcar.Vehicle(response.vehicles[0], mockAccessToken);
+    return mockVehicle.info();
+	}).then((data) => {
+		console.log("new car: ", data);
+	})
 }
 
-const handlePostAuth = (req, res) => {
-  let access;
-
-  if (req.query.error) {
-    // the user denied your requested permissions
-    return next(new Error(req.query.error));
-  }
-
-  // exchange auth code for access token
-  return client.exchangeCode(req.query.code)
-    .then(function(_access) {
-      // in a production app you'll want to store this in some kind of persistent storage
-      access = _access;
-      // get the user's vehicles
-      return smartcar.getVehicleIds(access.accessToken);
-    })
-    .then(function(res) {
-      // instantiate first vehicle in vehicle list
-      const vehicle = new smartcar.Vehicle(res.vehicles[0], access.accessToken);
-      // get identifying information about a vehicle
-      return vehicle.info();
-    })
-    .then(function(data) {
-      console.log(data);
-      // {
-      //   "id": "36ab27d0-fd9d-4455-823a-ce30af709ffc",
-      //   "make": "TESLA",
-      //   "model": "Model S",
-      //   "year": 2014
-      // }
-
-      // json response will be sent to the user
-      res.json(data);
-    });
-
-}
+getVehicle();
 
 const unlock = (req, res) => {
-
+  mockVehicle.unlock()
+  	.then(response => res.send({data: "Vehicle unlocked: "+ response}))
 }
 
 const lock = (req, res) => {
+	mockVehicle.lock()
+		.then(response => res.send({data: "Vehicle locked: " +response}));
 
 }
 
 const locate = (req, res) => {
+	mockVehicle.location()
+		.then(response => {
+			console.log(typeof response, response )
+			res.send(response)
+		})
 
 }
 
-const getRoutesById = (req, res) => {
+const getDestinationsBy
 
+const getRoutesById = (req, res) => {
+	var results = {
+		results:
+		[
+			{
+
+			}
+
+		]
+	}
+  res.send()
 }
 
 const getRoutesByLocation = (req, res) => {
@@ -80,6 +68,7 @@ const getRoutesByLocation = (req, res) => {
 module.exports = {
 	connect, 
 	handlePostAuth,
+	getVehicle,
 	unlock, 
 	lock, 
 	locate, 

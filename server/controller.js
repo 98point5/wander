@@ -34,8 +34,8 @@ const authenticate = (req, res) => {
 
 	} else {
 		console.log('Starting new session...')
-		//res.send({status: "failed", authUrl: client.getAuthUrl()})
-		res.redirect(client.getAuthUrl())
+		res.send({status: "failed", authUrl: client.getAuthUrl()})
+		//res.redirect(client.getAuthUrl())
 	}
 }
 

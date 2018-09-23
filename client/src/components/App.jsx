@@ -24,11 +24,28 @@ class App extends React.Component {
     this.state = {
       page: 'start',
       destination: '',
+      buttonLabel: 'LOGIN'
     };
     this.handleWander = this.handleWander.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.inputSearch = this.inputSearch.bind(this);
     this.returnToHome = this.returnToHome.bind(this);
+    this.handleAuthentication = this.handleAuthentication.bind(this);
+  }
+
+  handleAuthentication(){
+    fetch('/wander/auth')
+    .then(res => res.json())
+    .then(res => {
+      console.log(res.status)
+      if (res.authUrl) {
+        window.open(res.authUrl,'authenticate')
+      }else{
+        this.setState({
+          buttonLabel: 'LOGOUT'
+        })
+      }
+    })
   }
 
   handleWander() {
@@ -100,7 +117,11 @@ class App extends React.Component {
     }
     return (
       <div>
-        <NavBar returnToHome={this.returnToHome} />
+        <NavBar 
+          returnToHome={this.returnToHome} 
+          handleAuth={this.handleAuthentication}
+          buttonLabel={this.state.buttonLabel}
+        />
         {currentComponent}
       </div>
     );

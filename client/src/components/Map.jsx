@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import API_KEY from './API_KEY';
+import API_KEY from '../../../config.js';
 
 export default class Map extends Component {
   constructor(props) {

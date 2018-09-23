@@ -24,16 +24,17 @@ class App extends React.Component {
     this.state = {
       page: 'start',
       destination: '',
-      buttonLabel: 'LOGIN'
+      buttonLabel: '',
+      startingPoint: '',
+      endingPoint: ''
     };
     this.handleWander = this.handleWander.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.inputSearch = this.inputSearch.bind(this);
     this.returnToHome = this.returnToHome.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
   }
 
-  handleAuthentication(){
+  handleWander(){
     fetch('/wander/auth')
     .then(res => res.json())
     .then(res => {
@@ -42,20 +43,11 @@ class App extends React.Component {
         window.open(res.authUrl,'authenticate')
       }else{
         this.setState({
-          buttonLabel: 'LOGOUT'
+          buttonLabel: 'LOGOUT',
+          page: 'search'
         })
       }
     })
-  }
-
-  handleWander() {
-    //call specifc route to unlock
-    //change page state
-
-    this.setState({
-      page: 'search',
-    });
-    console.log(this.state);
   }
 
   handleSearch() {
@@ -78,6 +70,18 @@ class App extends React.Component {
     console.log(this.state);
   }
 
+  handleCarPick(carId) {
+    fetch('/wander/vehicles/:vehicleId/locate')
+    .then (res => res.json())
+    .then ({data} => {
+      let lat = Number(data.latitude).toFixed(6);
+      let long = Number(data.longitude).toFixed(6);
+      this.setState({
+        startingPoint: lat + ',' + long
+      })
+    })
+  }
+
   render() {
     const whiteBackground = {
       border: '2px solid white',
@@ -92,6 +96,12 @@ class App extends React.Component {
           <Start changePage={this.handleWander} />
         </div>
       );
+    }
+
+    if (this.state.page === 'cars') {
+      currentComponent = (
+        <MyCars handleSelect={this.handleCarPick} />
+      )
     }
 
     if (this.state.page === 'search') {
@@ -117,8 +127,8 @@ class App extends React.Component {
     }
     return (
       <div>
-        <NavBar 
-          returnToHome={this.returnToHome} 
+        <NavBar
+          returnToHome={this.returnToHome}
           handleAuth={this.handleAuthentication}
           buttonLabel={this.state.buttonLabel}
         />

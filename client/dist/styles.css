@@ -10,34 +10,18 @@
   margin:0;
   padding:0;
 }
-.start-button {
-  background-color: Transparent;
+.start {
   position: fixed;
   width: 75%;
   height: auto;
   top: 50%;
-  font-family: cursive, Garamond, Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: 100;
   text-align: center;
-  border-radius: 10px;
   vertical-align: middle;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-.btn-text {
-  width: 90%;
-  height: 90%;
-}
-
-
-
-
-
-
-
-
-
-
 
 #right-panel {
   font-family: 'Roboto','sans-serif';

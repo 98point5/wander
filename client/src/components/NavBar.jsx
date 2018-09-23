@@ -1,19 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
   withStyles,
   MuiThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles';
-import orange from '@material-ui/core/colors/orange';
+// import orange from '@material-ui/core/colors/orange';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = {
   root: {
@@ -31,41 +29,50 @@ const styles = {
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#ef5350',
+      main: 'rgba(255, 0, 0, 0.6)',
     },
     // secondary: pink,
   },
 });
 
-function NavBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <MuiThemeProvider theme={theme}>
-        <AppBar color="primary" position="static">
-          <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Menu"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
-              Wander
-            </Typography>
-            <Button size="large" color="inherit">
-              Login
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </MuiThemeProvider>
-    </div>
-  );
+class NavBar extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { classes } = this.props;
+    const { returnToHome } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <MuiThemeProvider theme={theme}>
+          <AppBar color="primary" position="static">
+            <Toolbar>
+              <IconButton
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="Menu"
+              >
+                {/* <MenuIcon /> */}
+              </IconButton>
+              <Typography
+                onClick={returnToHome}
+                variant="title"
+                color="inherit"
+                className={classes.flex}
+              >
+                Wander
+              </Typography>
+              <Button size="large" color="inherit">
+                Login
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </MuiThemeProvider>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(NavBar);

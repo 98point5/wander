@@ -27,6 +27,9 @@ const styles = theme => ({
     },
   },
   cssRoot: {
+    // opacity: 0.8,
+    textTransform: 'none',
+    textAlign: 'center',
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     borderRadius: 3,
     border: 0,
@@ -48,10 +51,10 @@ class SearchBar extends Component {
     };
   }
 
-  search() {
-    //do API call to google maps to typed in search address
-    this.setState({});
-  }
+  // search() {
+  //do API call to google maps to typed in search address
+  //   this.setState({});
+  // }
 
   render() {
     const { classes } = this.props;

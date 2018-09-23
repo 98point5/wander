@@ -8,18 +8,28 @@ class Googlemap extends React.Component {
       google, zoom, nearPlaces, initialCenter, 
       center, style,
     } = this.props;
-    console.log(center)
     return (
       <div>
-        <div>{JSON.stringify(center)}</div>
         <div className={style.main_map}>
           <Map
             google={google}
             zoom={zoom}
             initialCenter={initialCenter}
-            // center={center}
+            center={center}
             style={style}
           >
+            <Marker
+              position={this.props.start}
+              icon={{
+                url: "./icons/usr_loc.png",
+              }} 
+            />
+            <Marker
+              position={this.props.start}
+              icon={{
+                url: "./icons/pin.png",
+              }} 
+            />
           {nearPlaces.map(place =>
             <Marker
               name={place.name} 
@@ -27,6 +37,9 @@ class Googlemap extends React.Component {
                 lat: place.geometry.location.lat,
                 lng: place.geometry.location.lng,
               }}
+              icon={{
+                url: "./icons/flag.png",
+              }} 
             />
           )}
             <InfoWindow onClose={this.onInfoWindowClose}>

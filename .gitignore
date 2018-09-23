@@ -3,3 +3,5 @@ bundle.js
 # *.config.js
 .DS_Store
 secrets.js
+API_KEY.js
+config.js

@@ -8,33 +8,54 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'start'
+      page: 'start',
+      destination: '',
     };
+    this.handleWander = this.handleWander.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.inputSearch = this.inputSearch.bind(this);
+  }
+
+  handleWander() {
+    //call specifc route to unlock
+    //change page state
+
+    this.setState({
+      page: 'search',
+    });
+    console.log(this.state);
+  }
+
+  handleSearch() {
+    this.setState({
+      page: 'map',
+    });
+    console.log('MAP', this.state);
+  }
+
+  inputSearch(e) {
+    this.setState({
+      destination: e.target.value,
+    });
+    console.log(this.state);
   }
 
   render() {
     if (this.state.page === 'start') {
-      return (
-        <div>
-          <Start />
-        </div>
-      );
+      return <Start changePage={this.handleWander} />;
     }
 
     if (this.state.page === 'search') {
       return (
-        <div>
-          <Search />
-        </div>
+        <Search
+          handleSearch={this.handleSearch}
+          inputSearch={this.inputSearch}
+        />
       );
     }
 
     if (this.state.page === 'map') {
-      return (
-        <div>
-          <Map />
-        </div>
-      );
+      return <Map destination={this.state.destination} />;
     }
   }
 }

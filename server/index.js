@@ -1,3 +1,12 @@
+const {
+	connect, 
+	unlock, 
+	lock, 
+	locate, 
+	getRoutesById,
+	getRoutesByLocation,
+	getPlacesNearby
+} = require('./controller.js');
 
 const {
 	connect, 
@@ -32,5 +41,6 @@ app.get('/wander/lock', lock);
 app.get('/wander/location', locate)
 app.get('/wander/routes/:destinationId', getRoutesById)
 app.get('/wander/routes/new', getRoutesByLocation);
+app.get('/wander/places/location/:lat,:long/:keyword', getPlacesNearby);
 
 app.listen(3000, () => console.log('Listening at 3000'));

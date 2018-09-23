@@ -1,5 +1,7 @@
 const {  clientId, clientSecret  } = require('./secrets.js');
+const { nearBySearchFunc } = require('./NearBySearch.js');
 const smartcar = require('smartcar');
+
 
 const mockAccessToken = 'a5a735b9-294d-4e2a-92f6-8419588af373' ;
 const mockRefreshToken = '7b555c09-dd68-4449-adeb-16790d4099ac';
@@ -65,6 +67,14 @@ const getRoutesByLocation = (req, res) => {
 
 }
 
+const getPlacesNearby = (req, res) => {
+  const parameters = {
+    location: [req.params.lat, req.params.long],
+    keyword: req.params.keyword,
+  };
+  nearBySearchFunc(parameters, result => res.send(result));
+};
+
 module.exports = {
 	connect, 
 	handlePostAuth,
@@ -73,5 +83,9 @@ module.exports = {
 	lock, 
 	locate, 
 	getRoutesById,
-	getRoutesByLocation
+	getRoutesByLocation,
+	getPlacesNearby
 }
+
+
+

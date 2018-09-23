@@ -4,6 +4,7 @@ import Start from './Start.jsx';
 import Search from './Search.jsx';
 import Map from './Map.jsx';
 import NavBar from './NavBar';
+import MyCars from './MyCars.jsx';
 import frequentPlaces from '../../../server/sampleData.js'
 import FrequentPlaces from './FrequentPlaces';
 
@@ -34,22 +35,23 @@ class App extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.inputSearch = this.inputSearch.bind(this);
     this.returnToHome = this.returnToHome.bind(this);
+    this.handleCarPick = this.handleCarPick.bind(this);
   }
 
-  handleWander(){
+  handleWander() {
     fetch('/wander/auth')
-    .then(res => res.json())
-    .then(res => {
-      console.log(res.status)
-      if (res.authUrl) {
-        window.open(res.authUrl,'authenticate')
-      }else{
-        this.setState({
-          buttonLabel: 'LOGOUT',
-          page: 'cars'
-        })
-      }
-    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res.status);
+        if (res.authUrl) {
+          window.open(res.authUrl, 'authenticate');
+        } else {
+          this.setState({
+            buttonLabel: 'LOGOUT',
+            page: 'cars',
+          });
+        }
+      });
   }
 
   handleSearch() {
@@ -72,64 +74,65 @@ class App extends React.Component {
     console.log(this.state);
   }
 
-  getCars() {
-    fetch('/wander/vehicles')
-    .then(res => res.json())
-    .then(({data}) => this.setState({
-      carIds: data
-    });
-  }
-
   getCarInfo(carId) {
     fetch('/wander/vehicles/' + carId + '/info')
-    .then(res => res.json())
-    .then(carInfo => this.setState({
-      cars: this.state.cars.concat(carInfo)
-    }))
+      .then(res => res.json())
+      .then(carInfo =>
+        this.setState({
+          cars: this.state.cars.concat(carInfo),
+        })
+      );
   }
-
 
   handleCarPick(carId) {
-    fetch('/wander/vehicles/:vehicleId/locate')
-    .then (res => res.json())
-    .then (({data}) => {
-      let lat = Number(data.latitude).toFixed(6);
-      let long = Number(data.longitude).toFixed(6);
-      this.setState({
-        startingPoint: lat + ',' + long
-      })
-    })
-  }
-
-  handleCarUnlock(carId){
     fetch('/wander/vehicles/' + carId + '/locate')
-    .then (res => res.json())
-    .then (({data}) => {
-      let lat = Number(data.latitude).toFixed(6);
-      let long = Number(data.longitude).toFixed(6);
-      this.setState({
-        startingPoint: lat + ',' + long
-      })
-    })
-    .then(() => {
-      fetch('/wander/vehicles/' + carId + '/unlock')
-      .then(res => alert('Car unlocked!'))
-    })
+      .then(res => res.json())
+      .then(({ data }) => {
+        let lat = Number(data.latitude).toFixed(6);
+        let long = Number(data.longitude).toFixed(6);
+        this.setState({
+          startingPoint: lat + ',' + long,
+        });
+      });
   }
 
-  handleDestinationPick({latitude, longitude}) {
-    let endingPoint =  latitude + ',' + longitude;
-    this.setState({
-      endingPoint: endingPoint
-    }, this.getSuggestions)
+  handleCarUnlock(carId) {
+    fetch('/wander/vehicles/' + carId + '/locate')
+      .then(res => res.json())
+      .then(({ data }) => {
+        let lat = Number(data.latitude).toFixed(6);
+        let long = Number(data.longitude).toFixed(6);
+        this.setState({
+          startingPoint: lat + ',' + long,
+          page: 'locations',
+        });
+      })
+      .then(() => {
+        fetch('/wander/vehicles/' + carId + '/unlock').then(res =>
+          alert('Car unlocked!')
+        );
+      });
+  }
 
+  handleDestinationPick({ latitude, longitude }) {
+    let endingPoint = latitude + ',' + longitude;
+    this.setState(
+      {
+        endingPoint: endingPoint,
+      },
+      this.getSuggestions
+    );
   }
 
   getSuggestions() {
-    fetch('/wander/suggestions/' + this.state.startingPoint + '/' + this.state.endingPoint)
-    .then(results => {
-        //put tehm in da map yo
-    })
+    fetch(
+      '/wander/suggestions/' +
+        this.state.startingPoint +
+        '/' +
+        this.state.endingPoint
+    ).then(results => {
+      //put tehm in da map yo
+    });
   }
 
   render() {
@@ -149,9 +152,7 @@ class App extends React.Component {
     }
 
     if (this.state.page === 'cars') {
-      currentComponent = (
-        <MyCars handleSelect={this.handleCarPick} />
-      )
+      currentComponent = <MyCars handleSelect={this.handleCarPick} />;
     }
 
     if (this.state.page === 'search') {

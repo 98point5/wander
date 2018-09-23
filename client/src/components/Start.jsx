@@ -55,7 +55,7 @@ class Start extends React.Component {
 
     return (
       <div className="bg">
-        <div className="start-button">
+        <div className="start">
           <div>Exploring Made Simple</div>
           <br />
           <div className={classes.container}>

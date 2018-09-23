@@ -1,3 +1,4 @@
+const { nearBySearchFunc } = require("./NearBySearch.js");
 const {
 	clientId,
 	clientSecret
@@ -26,6 +27,13 @@ const getRoutesById = (req, res) => {
 const getRoutesByLocation = (req, res) => {
 
 }
+const getPlacesNearby = (req, res) => {
+	const parameters = {
+		location: [req.params.lat,req.params.long],
+		keyword: req.params.keyword
+	};
+	nearBySearchFunc(parameters, (result) => res.send(result))
+}
 
 module.exports = {
 	connect, 
@@ -33,5 +41,6 @@ module.exports = {
 	lock, 
 	locate, 
 	getRoutesById,
-	getRoutesByLocation
+	getRoutesByLocation,
+	getPlacesNearby
 }

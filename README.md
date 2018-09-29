@@ -25,6 +25,8 @@ npm start
 ## Screenshots of Wander UI
 
 ![image](https://user-images.githubusercontent.com/32206840/46113891-0a37e500-c1a5-11e8-965e-8a8e566aea1b.png)
+![image](https://user-images.githubusercontent.com/32206840/46240349-e1595080-c35a-11e8-87d8-badda0cf67f6.png)
+
 ![image](https://user-images.githubusercontent.com/32206840/46113902-158b1080-c1a5-11e8-9a1c-4db1c874f6f9.png)
 
 ## Acknowledgments
